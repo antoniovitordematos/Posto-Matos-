@@ -118,13 +118,24 @@ def buscar_abastecimento():
     Exibe todos os resultados encontrados para o termo informado.
     """
     print("\n--- BUSCAR ABASTECIMENTO ---")
-    termo = input("Digite o ID ou CPF do cliente: ").strip()
  
-    # List comprehension — filtra os registros que correspondem ao ID ou CPF digitado
-    resultado = [r for r in abastecimentos if str(r["id"]) == termo or r["cpf"] == termo]
+    try:
+        termo = input("Digite o ID ou CPF do cliente: ").strip()
  
-    if not resultado:
-        print("Nenhum registro encontrado.")
+        if not termo:
+            print("Nenhum valor digitado.")
+            return
+ 
+        # List comprehension — filtra os registros que correspondem ao ID ou CPF digitado
+        resultado = [r for r in abastecimentos if str(r["id"]) == termo or r["cpf"] == termo]
+ 
+        if not resultado:
+            print("Nenhum registro encontrado.")
+            return
+ 
+    except Exception as e:
+        # Captura qualquer erro inesperado durante a busca
+        print(f"Erro ao buscar registro: {e}")
         return
  
     # Exibe os registros encontrados em formato de tabela
@@ -142,17 +153,24 @@ def editar_abastecimento():
     Campos deixados em branco mantêm o valor atual. O total é recalculado automaticamente.
     """
     print("\n--- EDITAR ABASTECIMENTO ---")
-    id_busca = input("Digite o ID do abastecimento: ").strip()
  
-    # Procura o registro com o ID informado
-    registro = None
-    for r in abastecimentos:
-        if str(r["id"]) == id_busca:
-            registro = r
-            break
+    try:
+        id_busca = input("Digite o ID do abastecimento: ").strip()
  
-    if not registro:
-        print("Registro não encontrado.")
+        # Procura o registro com o ID informado
+        registro = None
+        for r in abastecimentos:
+            if str(r["id"]) == id_busca:
+                registro = r
+                break
+ 
+        if not registro:
+            print("Registro não encontrado.")
+            return
+ 
+    except Exception as e:
+        # Captura qualquer erro inesperado ao buscar o ID informado
+        print(f"Erro ao localizar registro: {e}")
         return
  
     print(f"\nEditando abastecimento de: {registro['nome']}")
@@ -244,3 +262,4 @@ def relatorio_por_combustivel():
     # Calcula e exibe o total geral somando todos os combustíveis
     total_geral = sum(resumo.values())
     print(f"\n  {'TOTAL GERAL':<25} R$ {total_geral:.2f}")
+ 
