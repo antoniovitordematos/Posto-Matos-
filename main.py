@@ -1,4 +1,5 @@
-# main.py — 
+
+from auth import autenticar
 
 from crud import (
     cadastrar_abastecimento,
@@ -11,7 +12,6 @@ from crud import (
 
 
 def exibir_menu():
-    """Exibe o menu principal do sistema."""
     print("\n" + "=" * 40)
     print("       POSTO MATOS — SISTEMA CRUD")
     print("=" * 40)
@@ -26,7 +26,6 @@ def exibir_menu():
 
 
 def main():
-    """Função principal — loop do menu."""
     print("\nBem-vindo ao sistema do Posto Matos!")
 
     while True:
@@ -53,4 +52,7 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    if autenticar():
+        main()
+    else:
+        print("\nAcesso não autorizado. Sistema encerrado.")
