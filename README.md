@@ -1,90 +1,102 @@
-# Posto Matos — Sistema de Controle de Abastecimentos
+# Posto Matos — Sistema de Gerenciamento de Abastecimentos
 
-## 1. Descrição do sistema
+## 1. Sobre o projeto
 
-O Posto Matos é um sistema desenvolvido em Python para gerenciar os abastecimentos de um posto de combustível. Ele permite cadastrar, consultar, editar e excluir registros, além de gerar relatórios por tipo de combustível. O sistema também possui cadastro e login de usuários.
+O Posto Matos é um sistema desenvolvido em Python com banco de dados PostgreSQL para gerenciar clientes e abastecimentos de um posto de combustíveis.
 
-## 2. Tecnologias utilizadas
+O sistema possui duas formas de utilização: pelo terminal e por uma interface gráfica desenvolvida com Tkinter.
+
+## 2. Funcionalidades
+
+- Login com usuário e senha.
+- Cadastro de clientes e abastecimentos.
+- Consulta e listagem de abastecimentos.
+- Pesquisa por ID do abastecimento, CPF ou nome do cliente.
+- Edição de registros cadastrados.
+- Exclusão de abastecimentos.
+- Cálculo automático do valor total do abastecimento.
+- Integração com banco de dados PostgreSQL.
+
+## 3. Tecnologias utilizadas
 
 - Python
-- PostgreSQL 18
+- Tkinter
+- PostgreSQL
 - Psycopg
 - python-dotenv
-- SQL
-- Visual Studio Code (VS Code)
+- Git e GitHub
 
-## 3. Funcionalidades
+## 4. Arquivos do projeto
 
-- Cadastro e login de usuários.
-- Cadastro de abastecimentos.
-- Listagem dos abastecimentos registrados.
-- Busca de abastecimentos por identificador.
-- Edição e exclusão de registros.
-- Relatórios por tipo de combustível.
-- Consulta de abastecimentos relacionados aos clientes.
-
-## 4. Estrutura do banco de dados
-
-O sistema utiliza o banco de dados `posto_matos`, composto por três tabelas principais:
-
-- **clientes:** armazena o identificador, o nome e o CPF dos clientes.
-- **abastecimentos:** armazena o cliente relacionado, o tipo de combustível, a quantidade de litros, o preço por litro, o valor total e a data do abastecimento.
-- **usuarios:** armazena os dados necessários para a autenticação dos usuários.
-
-A tabela `abastecimentos` possui a chave estrangeira `cliente_id`, que referencia a chave primária `id` da tabela `clientes`. Essa relação permite identificar o cliente de cada abastecimento.
+- `main.py` — sistema executado pelo terminal.
+- `interface.py` — interface gráfica para gerenciamento de abastecimentos.
+- `auth.py` — autenticação de usuários.
+- `conexao.py` — conexão com o banco de dados.
+- `crud.py` — operações de cadastro, consulta, edição e exclusão.
+- `dados.py` — dados e opções utilizados pelo sistema.
+- `utils.py` — funções auxiliares.
+- `banco.sql` — comandos SQL para criação e preparação do banco de dados.
+- `.gitignore` — arquivos ignorados pelo Git.
 
 ## 5. Configuração do banco de dados
 
-1. Instale o PostgreSQL e abra o pgAdmin 4.
-2. Crie um banco de dados chamado `posto_matos`.
-3. Execute o arquivo `banco.sql` para criar as tabelas necessárias.
-4. Crie um arquivo `.env` na pasta do projeto com a seguinte configuração:
+O sistema utiliza o PostgreSQL e o banco de dados `posto_matos`.
+
+No arquivo `.env`, localizado na pasta do projeto, configure a senha do usuário PostgreSQL:
 
 ```env
 DB_PASSWORD=sua_senha_do_postgresql
 ```
 
-Substitua `sua_senha_do_postgresql` pela senha utilizada na sua instalação do PostgreSQL.
+Substitua `sua_senha_do_postgresql` pela senha configurada no seu ambiente.
 
-O arquivo `.env` não deve ser enviado ao GitHub, pois contém informações confidenciais.
+Certifique-se de que o PostgreSQL esteja em execução e de que o banco de dados e as tabelas tenham sido criados conforme os comandos disponíveis em `banco.sql`.
 
-## 6. Instalação e execução
+O arquivo `.env` deve permanecer no computador e não deve ser enviado ao GitHub.
 
-Abra o terminal na pasta do projeto e instale as dependências:
+## 6. Instruções para execução
+
+### 6.1. Instalação das dependências
+
+Com o Python instalado, abra o terminal do VS Code na pasta do projeto e execute:
 
 ```bash
-python -m pip install "psycopg[binary]" python-dotenv
+pip install "psycopg[binary]" python-dotenv
 ```
 
-Para iniciar o sistema, execute:
+### 6.2. Preparação do banco de dados
+
+Inicie o PostgreSQL e verifique se o banco `posto_matos` e suas tabelas estão criados.
+
+Configure o arquivo `.env` conforme explicado na seção anterior. Caso o banco ainda não esteja preparado, utilize os comandos de `banco.sql`.
+
+### 6.3. Execução da interface gráfica
+
+Para iniciar a interface gráfica, execute:
+
+```bash
+python interface.py
+```
+
+A tela de login será exibida. Informe o usuário e a senha cadastrados no banco de dados.
+
+Após a autenticação, será possível acessar as funções de cadastro, consulta, edição e exclusão de abastecimentos.
+
+### 6.4. Execução pelo terminal
+
+Para executar a versão textual do sistema, utilize:
 
 ```bash
 python main.py
 ```
 
-Na primeira utilização, siga as instruções apresentadas para cadastrar um usuário, caso ainda não exista um usuário cadastrado no banco de dados.
+Após a autenticação, o menu principal será exibido no terminal, permitindo utilizar as funcionalidades disponíveis.
 
-## 7. Organização dos arquivos
+## 7. Usuário e senha para teste
 
-- `main.py`: inicia o sistema e apresenta o menu principal.
-- `conexao.py`: realiza a conexão com o PostgreSQL.
-- `auth.py`: gerencia o cadastro e o login dos usuários.
-- `crud.py`: contém as operações de cadastro, consulta, edição, exclusão e os relatórios.
-- `dados.py`: reúne funções relacionadas aos dados do sistema.
-- `utils.py`: contém funções auxiliares.
-- `banco.sql`: contém os comandos SQL para criação das tabelas.
-- `teste_conexao.py`: verifica a conexão com o banco de dados.
-- `.gitignore`: define os arquivos que não devem ser enviados ao GitHub.
-- `.env`: armazena localmente a senha de acesso ao banco de dados.
-- `README.md`: apresenta as informações e instruções do projeto.
-
-## 8. Usuário e senha para teste
+Utilize as credenciais abaixo para acessar o sistema:
 
 - **Usuário:** `play`
 - **Senha:** `12345678`
 
-Essas credenciais foram utilizadas nos testes do sistema no banco de dados local. Em outra instalação, é necessário cadastrar o usuário correspondente no banco de dados.
 
-## 9. Repositório no GitHub
-
-[Posto Matos — GitHub](https://github.com/antoniovitordematos/Posto-Matos-)
