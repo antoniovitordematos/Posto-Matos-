@@ -2,7 +2,7 @@
 
 ## 1. Descrição do sistema
 
-O Posto Matos é um sistema desenvolvido em Python para gerenciar abastecimentos de um posto de combustível. Ele permite registrar e consultar abastecimentos, administrar os registros e gerar relatórios por tipo de combustível.
+O Posto Matos é um sistema desenvolvido em Python para gerenciar os abastecimentos de um posto de combustível. Ele permite cadastrar, consultar, editar e excluir registros, além de gerar relatórios por tipo de combustível. O sistema também possui cadastro e login de usuários.
 
 ## 2. Tecnologias utilizadas
 
@@ -17,7 +17,7 @@ O Posto Matos é um sistema desenvolvido em Python para gerenciar abastecimentos
 
 - Cadastro e login de usuários.
 - Cadastro de abastecimentos.
-- Listagem dos abastecimentos.
+- Listagem dos abastecimentos registrados.
 - Busca de abastecimentos por identificador.
 - Edição e exclusão de registros.
 - Relatórios por tipo de combustível.
@@ -44,7 +44,7 @@ A tabela `abastecimentos` possui a chave estrangeira `cliente_id`, que referenci
 DB_PASSWORD=sua_senha_do_postgresql
 ```
 
-Substitua o valor de exemplo pela senha utilizada na sua instalação do PostgreSQL.
+Substitua `sua_senha_do_postgresql` pela senha utilizada na sua instalação do PostgreSQL.
 
 O arquivo `.env` não deve ser enviado ao GitHub, pois contém informações confidenciais.
 
@@ -62,7 +62,7 @@ Para iniciar o sistema, execute:
 python main.py
 ```
 
-Na primeira utilização, siga as instruções apresentadas para cadastrar um usuário, caso ainda não exista um no banco de dados.
+Na primeira utilização, siga as instruções apresentadas para cadastrar um usuário, caso ainda não exista um usuário cadastrado no banco de dados.
 
 ## 7. Organização dos arquivos
 
@@ -87,4 +87,4 @@ Essas credenciais foram utilizadas nos testes do sistema no banco de dados local
 
 ## 9. Repositório no GitHub
 
-https://github.com/antoniovitordematos/Posto-Matos-
+[Posto Matos — GitHub](https://github.com/antoniovitordematos/Posto-Matos-)
