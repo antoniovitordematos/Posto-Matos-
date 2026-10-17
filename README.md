@@ -1,10 +1,8 @@
 # Posto Matos — Sistema de Controle de Abastecimentos
 
-## 1. Descrição do projeto
+## 1. Descrição do sistema
 
-O Posto Matos é um sistema desenvolvido em Python para gerenciar abastecimentos de um posto de combustíveis. O sistema permite cadastrar, listar, buscar, editar e excluir abastecimentos, além de gerar relatórios por tipo de combustível.
-
-A aplicação possui autenticação de usuários e utiliza um banco de dados PostgreSQL para armazenar as informações.
+O Posto Matos é um sistema desenvolvido em Python para gerenciar abastecimentos de um posto de combustível. Ele permite registrar e consultar abastecimentos, administrar os registros e gerar relatórios por tipo de combustível.
 
 ## 2. Tecnologias utilizadas
 
@@ -12,114 +10,81 @@ A aplicação possui autenticação de usuários e utiliza um banco de dados Pos
 - PostgreSQL 18
 - Psycopg
 - python-dotenv
-- pgAdmin 4
-- Visual Studio Code
+- SQL
+- Visual Studio Code (VS Code)
 
 ## 3. Funcionalidades
 
-- Cadastro e autenticação de usuários.
+- Cadastro e login de usuários.
 - Cadastro de abastecimentos.
-- Listagem dos abastecimentos registrados.
-- Busca por identificador do abastecimento ou CPF do cliente.
-- Edição de abastecimentos.
-- Exclusão de abastecimentos.
+- Listagem dos abastecimentos.
+- Busca de abastecimentos por identificador.
+- Edição e exclusão de registros.
 - Relatórios por tipo de combustível.
-- Cálculo do valor total do abastecimento.
-- Relacionamento entre clientes e abastecimentos por chave estrangeira.
-- Armazenamento das senhas dos usuários em formato de hash.
+- Consulta de abastecimentos relacionados aos clientes.
 
-## 4. Estrutura do projeto
+## 4. Estrutura do banco de dados
 
-- `main.py`: menu principal e controle do sistema.
-- `auth.py`: cadastro inicial e autenticação de usuários.
-- `conexao.py`: conexão com o banco de dados PostgreSQL.
-- `crud.py`: funções de cadastro, consulta, edição, exclusão e relatórios.
-- `dados.py`: dados auxiliares, incluindo os tipos de combustível.
-- `utils.py`: funções auxiliares.
-- `teste_conexao.py`: teste da conexão com o banco de dados.
-- `banco.sql`: comandos SQL para criação das tabelas.
-- `README.md`: documentação do projeto.
-- `.gitignore`: define arquivos que não devem ser enviados ao GitHub.
-- `.env`: armazena localmente a senha do banco de dados e não deve ser publicado.
+O sistema utiliza o banco de dados `posto_matos`, composto por três tabelas principais:
 
-## 5. Banco de dados
+- **clientes:** armazena o identificador, o nome e o CPF dos clientes.
+- **abastecimentos:** armazena o cliente relacionado, o tipo de combustível, a quantidade de litros, o preço por litro, o valor total e a data do abastecimento.
+- **usuarios:** armazena os dados necessários para a autenticação dos usuários.
 
-Nome do banco de dados: `posto_matos`
+A tabela `abastecimentos` possui a chave estrangeira `cliente_id`, que referencia a chave primária `id` da tabela `clientes`. Essa relação permite identificar o cliente de cada abastecimento.
 
-O sistema utiliza as seguintes tabelas:
+## 5. Configuração do banco de dados
 
-- **clientes:** armazena os dados dos clientes, como nome e CPF.
-- **abastecimentos:** armazena os dados dos abastecimentos, incluindo combustível, quantidade de litros, preço por litro, valor total e data.
-- **usuarios:** armazena os dados necessários para autenticação dos usuários.
+1. Instale o PostgreSQL e abra o pgAdmin 4.
+2. Crie um banco de dados chamado `posto_matos`.
+3. Execute o arquivo `banco.sql` para criar as tabelas necessárias.
+4. Crie um arquivo `.env` na pasta do projeto com a seguinte configuração:
 
-A tabela `abastecimentos` possui a coluna `cliente_id`, que funciona como chave estrangeira relacionada à chave primária `id` da tabela `clientes`.
+```env
+DB_PASSWORD=sua_senha_do_postgresql
+```
 
-Esse relacionamento permite associar cada abastecimento ao respectivo cliente.
+Substitua o valor de exemplo pela senha utilizada na sua instalação do PostgreSQL.
 
-## 6. Instalação
+O arquivo `.env` não deve ser enviado ao GitHub, pois contém informações confidenciais.
 
-Para executar o projeto, é necessário ter o Python e o PostgreSQL instalados no computador.
+## 6. Instalação e execução
 
-Abra o terminal na pasta do projeto e instale as bibliotecas utilizadas:
+Abra o terminal na pasta do projeto e instale as dependências:
 
 ```bash
 python -m pip install "psycopg[binary]" python-dotenv
 ```
 
-## 7. Configuração do banco de dados
-
-Crie o banco de dados `posto_matos` no PostgreSQL.
-
-Em seguida, utilize o arquivo `banco.sql` para criar as tabelas necessárias, caso ainda não existam.
-
-Na pasta principal do projeto, crie um arquivo chamado `.env` e adicione:
-
-```text
-DB_PASSWORD=sua_senha_do_postgresql
-```
-
-Substitua `sua_senha_do_postgresql` pela senha configurada no seu PostgreSQL.
-
-O arquivo `conexao.py` utiliza essa variável para estabelecer a conexão com o banco de dados.
-
-**Importante:** o arquivo `.env` contém informações confidenciais e não deve ser enviado ao GitHub. O arquivo `.gitignore` está configurado para ignorá-lo.
-
-## 8. Execução do sistema
-
-Depois de configurar o banco de dados e instalar as dependências, execute o seguinte comando no terminal:
+Para iniciar o sistema, execute:
 
 ```bash
 python main.py
 ```
 
-O sistema apresentará uma tela de login. Após a autenticação, será exibido o menu principal com as opções de cadastro, consulta, edição, exclusão e relatório de abastecimentos.
+Na primeira utilização, siga as instruções apresentadas para cadastrar um usuário, caso ainda não exista um no banco de dados.
 
-## 9. Credenciais para teste
+## 7. Organização dos arquivos
 
-As credenciais abaixo foram testadas e permitem acessar o sistema neste ambiente:
+- `main.py`: inicia o sistema e apresenta o menu principal.
+- `conexao.py`: realiza a conexão com o PostgreSQL.
+- `auth.py`: gerencia o cadastro e o login dos usuários.
+- `crud.py`: contém as operações de cadastro, consulta, edição, exclusão e os relatórios.
+- `dados.py`: reúne funções relacionadas aos dados do sistema.
+- `utils.py`: contém funções auxiliares.
+- `banco.sql`: contém os comandos SQL para criação das tabelas.
+- `teste_conexao.py`: verifica a conexão com o banco de dados.
+- `.gitignore`: define os arquivos que não devem ser enviados ao GitHub.
+- `.env`: armazena localmente a senha de acesso ao banco de dados.
+- `README.md`: apresenta as informações e instruções do projeto.
+
+## 8. Usuário e senha para teste
 
 - **Usuário:** `play`
 - **Senha:** `12345678`
 
-Essas credenciais são destinadas à demonstração e à avaliação das funcionalidades do projeto.
+Essas credenciais foram utilizadas nos testes do sistema no banco de dados local. Em outra instalação, é necessário cadastrar o usuário correspondente no banco de dados.
 
-Para utilizar o projeto em outro banco de dados, será necessário garantir que esse usuário esteja cadastrado ou criar um novo usuário pelo mecanismo de autenticação disponível no sistema.
+## 9. Repositório no GitHub
 
-## 10. Testes realizados
-
-Durante os testes, foram verificadas as seguintes funcionalidades:
-
-- Conexão com o PostgreSQL.
-- Login com usuário e senha válidos.
-- Recusa de acesso com credenciais incorretas.
-- Cadastro de abastecimentos.
-- Busca de abastecimentos.
-- Edição de registros.
-- Relatórios por tipo de combustível.
-- Exclusão de abastecimentos.
-
-## 11. Repositório
-
-O código-fonte do projeto será disponibilizado no GitHub.
-
-**Link do repositório:** adicionar o endereço do repositório após a publicação.
+https://github.com/antoniovitordematos/Posto-Matos-
