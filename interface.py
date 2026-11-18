@@ -4,9 +4,11 @@ from tkinter import ttk, messagebox
 from conexao import conectar
 from auth import verificar_senha
 from dados import tipos_combustivel
+from dashboard import abrir_dashboard
 
 
 class PostoMatos:
+
     def __init__(self, janela):
         self.janela = janela
         self.janela.title("Posto Matos - Gerenciamento")
@@ -87,6 +89,12 @@ class PostoMatos:
             botoes, text="Limpar", command=self.limpar
         ).pack(side="left", padx=3)
 
+        ttk.Button(
+            botoes,
+            text="Dashboard",
+            command=lambda: abrir_dashboard(self.janela)
+        ).pack(side="left", padx=3)
+
         pesquisa = ttk.LabelFrame(
             principal, text="Pesquisar por ID, CPF ou nome", padding=8
         )
@@ -114,7 +122,7 @@ class PostoMatos:
         )
 
         titulos = {
-            "id": "ID",
+            "id": "Nº",
             "nome": "Cliente",
             "cpf": "CPF",
             "combustivel": "Combustível",
@@ -176,8 +184,13 @@ class PostoMatos:
 
             self.tabela.delete(*self.tabela.get_children())
 
-            for registro in registros:
-                self.tabela.insert("", "end", values=registro)
+            for numero, registro in enumerate(registros, start=1):
+                self.tabela.insert(
+                    "",
+                    "end",
+                    iid=str(registro[0]),
+                    values=(numero, *registro[1:])
+                )
 
             self.registro_id = None
 
@@ -195,12 +208,15 @@ class PostoMatos:
         self.carregar_registros(filtro)
 
         registros = self.tabela.get_children()
+
         if registros:
             self.tabela.selection_set(registros[0])
             self.tabela.focus(registros[0])
             self.tabela.see(registros[0])
         else:
-            messagebox.showinfo("Pesquisa", "Nenhum abastecimento encontrado.")
+            messagebox.showinfo(
+                "Pesquisa", "Nenhum abastecimento encontrado."
+            )
 
     def selecionar(self, evento=None):
         selecionados = self.tabela.selection()
@@ -209,10 +225,11 @@ class PostoMatos:
             return
 
         valores = self.tabela.item(selecionados[0], "values")
+
         if not valores:
             return
 
-        self.registro_id = int(valores[0])
+        self.registro_id = int(selecionados[0])
 
         self.limpar_campos()
 
@@ -242,10 +259,14 @@ class PostoMatos:
             litros = float(litros_texto)
             preco = float(preco_texto)
         except ValueError:
-            raise ValueError("Informe litros e preço usando números válidos.")
+            raise ValueError(
+                "Informe litros e preço usando números válidos."
+            )
 
         if litros <= 0 or preco <= 0:
-            raise ValueError("Litros e preço devem ser maiores que zero.")
+            raise ValueError(
+                "Litros e preço devem ser maiores que zero."
+            )
 
         return nome, cpf, combustivel, litros, preco
 
@@ -322,7 +343,9 @@ class PostoMatos:
                     registro = cursor.fetchone()
 
                     if not registro:
-                        raise ValueError("O abastecimento não foi encontrado.")
+                        raise ValueError(
+                            "O abastecimento não foi encontrado."
+                        )
 
                     cliente_id = registro[0]
 
@@ -362,7 +385,9 @@ class PostoMatos:
                         )
                     )
 
-            messagebox.showinfo("Sucesso", "Abastecimento atualizado!")
+            messagebox.showinfo(
+                "Sucesso", "Abastecimento atualizado!"
+            )
             self.limpar()
             self.carregar_registros()
 
@@ -391,7 +416,9 @@ class PostoMatos:
                         (self.registro_id,)
                     )
 
-            messagebox.showinfo("Sucesso", "Abastecimento excluído!")
+            messagebox.showinfo(
+                "Sucesso", "Abastecimento excluído!"
+            )
             self.limpar()
             self.carregar_registros()
 
@@ -407,6 +434,7 @@ class PostoMatos:
     def limpar(self):
         self.registro_id = None
         self.limpar_campos()
+
         for item in self.tabela.selection():
             self.tabela.selection_remove(item)
 
@@ -444,7 +472,9 @@ def realizar_login():
 
         if not usuario or not senha:
             messagebox.showwarning(
-                "Atenção", "Digite o usuário e a senha.", parent=login
+                "Atenção",
+                "Digite o usuário e a senha.",
+                parent=login
             )
             return
 
@@ -462,7 +492,9 @@ def realizar_login():
                 abrir_sistema()
             else:
                 messagebox.showerror(
-                    "Login", "Usuário ou senha incorretos.", parent=login
+                    "Login",
+                    "Usuário ou senha incorretos.",
+                    parent=login
                 )
                 campo_senha.delete(0, tk.END)
 
@@ -479,6 +511,7 @@ def realizar_login():
 
     campo_senha.bind("<Return>", entrar)
     campo_usuario.focus_set()
+
     login.mainloop()
 
 
