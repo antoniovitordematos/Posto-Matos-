@@ -9,7 +9,7 @@ def conectar():
     return psycopg.connect(
         host="localhost",
         port=5432,
-        dbname="posto_matos",
+        dbname=os.getenv("DB_NAME", "posto_matos"),
         user="postgres",
         password=os.getenv("DB_PASSWORD")
     )
