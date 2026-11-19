@@ -123,6 +123,8 @@ Campos principais:
 
 As tabelas clientes e abastecimentos possuem relacionamento por chave estrangeira.
 
+Um cliente pode realizar vários abastecimentos, mas cada abastecimento pertence a um cliente.
+
 ## 7. Consultas SQL
 
 O projeto utiliza consultas SQL para realizar operações de gerenciamento e gerar informações para o Dashboard.
@@ -138,7 +140,15 @@ O arquivo `consultas_dashboard.sql` contém consultas que demonstram o uso dos s
 - SUBQUERY: utilização de consultas internas para análise de dados.
 - JOIN: relacionamento entre as tabelas clientes e abastecimentos.
 
-Essas consultas permitem obter informações sobre faturamento, quantidade de abastecimentos e gastos dos clientes.
+As consultas permitem:
+
+1. Calcular os quatro indicadores gerais do posto.
+2. Consultar o faturamento por combustível.
+3. Identificar combustíveis com pelo menos dois abastecimentos.
+4. Identificar clientes com gastos acima da média.
+5. Consultar o histórico de abastecimentos com os dados dos clientes.
+
+As consultas de indicadores e faturamento são executadas no Dashboard. As demais estão disponíveis no arquivo SQL para análise e demonstração.
 
 ## 8. Configuração do banco de dados
 
@@ -161,7 +171,9 @@ Substitua `sua_senha_do_postgresql` pela senha utilizada no seu ambiente.
 
 O arquivo `.env` contém uma informação sensível e não deve ser publicado no GitHub.
 
-Certifique-se de que o PostgreSQL esteja em execução e de que as tabelas tenham sido criadas conforme o arquivo `banco.sql`.
+Certifique-se de que o PostgreSQL esteja em execução.
+
+Caso o banco `posto_matos` ainda não exista, crie-o no PostgreSQL. Depois, execute os comandos do arquivo `banco.sql` para criar as tabelas necessárias.
 
 ## 9. Instruções para execução
 
@@ -181,7 +193,27 @@ Caso necessário, utilize os comandos disponíveis no arquivo `banco.sql` para p
 
 Configure o arquivo `.env` conforme explicado anteriormente.
 
-### 9.3. Execução da interface gráfica
+### 9.3. Primeiro acesso ao sistema
+
+Se não existir nenhum usuário cadastrado, execute:
+
+```bash
+python main.py
+```
+
+O sistema verificará a existência de usuários no banco de dados.
+
+Caso não encontre nenhum, solicitará o cadastro do primeiro usuário.
+
+Informe o nome, um nome de usuário e uma senha com pelo menos 8 caracteres.
+
+As senhas são protegidas por hash PBKDF2-SHA256 e armazenadas na tabela `usuarios`.
+
+Após concluir o cadastro, será possível acessar o sistema utilizando as credenciais criadas.
+
+O cadastro inicial é realizado pela versão de terminal.
+
+### 9.4. Execução da interface gráfica
 
 Para iniciar a interface gráfica, execute:
 
@@ -191,11 +223,13 @@ python interface.py
 
 A tela de login será exibida.
 
-Após a autenticação, o usuário poderá cadastrar, consultar, editar, pesquisar e excluir abastecimentos.
+Informe o usuário e a senha cadastrados anteriormente.
+
+Após a autenticação, será possível cadastrar, consultar, editar, pesquisar e excluir abastecimentos.
 
 Para visualizar os indicadores e gráficos, clique no botão "Dashboard".
 
-### 9.4. Execução pelo terminal
+### 9.5. Execução pelo terminal
 
 Para executar a versão textual do sistema, utilize:
 
@@ -205,7 +239,7 @@ python main.py
 
 Após a autenticação, o menu principal será exibido, permitindo realizar as operações CRUD e consultar o relatório por combustível.
 
-### 9.5. Acesso ao Dashboard
+### 9.6. Acesso ao Dashboard
 
 Na interface gráfica:
 
@@ -220,6 +254,10 @@ Na interface gráfica:
 O sistema exige autenticação com usuário e senha cadastrados no PostgreSQL.
 
 Para realizar os testes, utilize uma conta previamente cadastrada na tabela `usuarios`.
+
+Caso ainda não exista uma conta, execute `python main.py` para cadastrar o primeiro usuário.
+
+Depois, execute `python interface.py` e utilize as credenciais criadas para acessar a interface gráfica e o Dashboard.
 
 Por segurança, não publique senhas reais ou credenciais de acesso ao banco de dados no repositório público.
 
